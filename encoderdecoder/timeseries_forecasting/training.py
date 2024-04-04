@@ -168,9 +168,12 @@ def train(
     if torch.backends.mps.is_available():
         accelerator = 'mps'
         devices = 1
+    elif torch.cuda.is_available():
+        accelerator = 'gpu'
+        devices = "auto"
     else:
-        accelerator = None
-        devices = None
+        accelerator = 'cpu'  # fallback to cpu
+        devices = 1
 
     trainer = pl.Trainer(
         max_epochs=epochs,
