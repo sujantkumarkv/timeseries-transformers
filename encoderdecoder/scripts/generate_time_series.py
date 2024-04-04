@@ -115,4 +115,4 @@ if __name__ == "__main__":
 
     all_data = pd.concat(dataframes, ignore_index=True)
 
-    all_data.to_csv("data/data.csv", index=False)
+    all_data.to_csv("data/synthetic_data.csv", index=False)

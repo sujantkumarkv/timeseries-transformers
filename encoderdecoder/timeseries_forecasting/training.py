@@ -25,11 +25,11 @@ def split_df(
     :return:
     """
     if split == "train":
-        end_index = random.randint(context_size + 1, df.shape[0] - context_size)
+        end_index = random.randint(history_size, df.shape[0] - context_size)
     elif split in ["val", "test"]:
         end_index = df.shape[0]
     else:
-        raise ValueError
+        raise ValueError("Invalid split type, must be 'train', 'val' or 'test' only.")
 
     label_index = end_index - context_size
     start_index = max(0, label_index - history_size)
@@ -70,22 +70,27 @@ def df_to_np(df: pd.DataFrame, expected_size: int = 120):
 
 
 class Dataset(torch.utils.data.Dataset):
-    def __init__(self, dataframe, split, features, target):
+    def __init__(self, dataframe, split, features, target, history_size=120, context_size=30):
         self.dataframe = dataframe
         self.split = split
         self.features = features
         self.target = target
+        self.history_size= history_size
+        self.context_size = context_size
 
     def __len__(self):
-        return len(self.dataframe)
+        return len(self.dataframe) - self.history_size - self.context_size + 1
 
     def __getitem__(self, idx):
-        df = self.dataframe.iloc[idx: idx + 1]
+        # Ensure idx is within the range that allows forming a complete sample
+        idx = min(idx, len(self.dataframe) - self.history_size - self.context_size)
+        # Select a window of the DataFrame that includes enough rows to form both history and target
+        df = self.dataframe.iloc[idx: idx + self.history_size + self.context_size]
+        # df = self.dataframe.iloc[idx: idx + 1]
 
         src, trg = split_df(df, split=self.split)
 
         src = src[self.features + [self.target]]
-
         src = df_to_np(src)
 
         trg_in = trg[self.features + [f"{self.target}_lag_1"]]
@@ -107,7 +112,7 @@ def train(
     log_dir: str = "ts_logs",
     model_dir: str = "ts_models",
     batch_size: int = 32,
-    epochs: int = 2000,
+    epochs: int = 10,
     context_size: int = 30,
 ):
     data = pd.read_csv(data_csv_path)
@@ -208,7 +213,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_json_path", default=None)
     parser.add_argument("--log_dir")
     parser.add_argument("--model_dir")
-    parser.add_argument("--epochs", type=int, default=2000)
+    parser.add_argument("--epochs", type=int, default=10)
 
     args = parser.parse_args()
     # # Ensure model_dir exists

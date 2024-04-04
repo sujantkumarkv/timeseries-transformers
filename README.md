@@ -5,5 +5,3 @@ I explore different flavours of the architecture from vanilla to changes in the 
 
 ## Notes: 
 > *here I log my progress whatever I come across in completion of project*
-
-- I tried 
