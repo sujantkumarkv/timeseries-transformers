@@ -1,6 +1,6 @@
 import torch
 
-from time_series_forecasting.model import TimeSeriesForcasting, smape_loss
+from timeseries_forecasting.model import TimeSeriesForecasting, smape_loss
 
 
 def test_smape_loss():
@@ -17,7 +17,7 @@ def test_model():
     target_in = torch.rand(size=(32, 16, 8))
     target_out = torch.rand(size=(32, 16, 1))
 
-    ts = TimeSeriesForcasting(n_encoder_inputs=9, n_decoder_inputs=8)
+    ts = TimeSeriesForecasting(n_encoder_inputs=9, n_decoder_inputs=8)
 
     pred = ts((source, target_in))
 

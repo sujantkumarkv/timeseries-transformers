@@ -100,11 +100,11 @@ def generate_df():
 
 if __name__ == "__main__":
 
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
 
     dataframes = []
 
-    for _ in tqdm(range(20000)):
+    for _ in tqdm(range(2)):
         df = generate_df()
 
         # fig = plt.figure()

@@ -12,11 +12,11 @@ except FileNotFoundError:
     REQUIRED = []
 
 setup(
-    name="time_series_forecasting",
+    name="timeseries_forecasting",
     version="0.1",
     description="Time series forecasting",
     author="TimeSeries",
-    url="https://github.com/CVxTz/time_series_forecasting",
+    url="https://github.com/CVxTz/timeseries_forecasting",
     install_requires=REQUIRED,
     classifiers=[
         "Intended Audience :: Developers",

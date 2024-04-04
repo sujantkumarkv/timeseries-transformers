@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from time_series_forecasting.data_utils import (
+from timeseries_forecasting.data_utils import (
     add_date_cols,
     add_basic_lag_features,
 )
@@ -39,7 +39,7 @@ def test_add_basic_lag_features(tr_data):
         tr_data,
         group_by_cols=["key"],
         col_names=["value", "date"],
-        horizons=[0, 1, 2],
+        contexts=[0, 1, 2],
         fill_na=False,
     )
 
