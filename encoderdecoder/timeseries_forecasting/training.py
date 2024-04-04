@@ -190,7 +190,7 @@ def train(
     )
     trainer.fit(model, train_loader, val_loader)
 
-    result_val = trainer.test(test_dataloaders=val_loader)
+    result_val = trainer.test(dataloaders=val_loader)
 
     output_json = {
         "val_loss": result_val[0]["test_loss"],
